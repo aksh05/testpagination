@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title>Pagination</title>
+        
+        <style>
+            
+            .page{
+                color: black;
+                cursor: pointer;
+                
+            }
+            .page:hover{
+                color: white;
+            }
+            .pageContainer{
+                padding:10px;
+                display: inline-block;
+            }
+            .pages{
+                cursor: pointer;
+                 width: 20px;
+                height: 20px;
+                text-align: center;
+                display: inline-block;
+            }
+            .pages:hover{
+               
+                border-radius: 50%;
+                background-color: darkred;
+            }
+            .pages:hover .page{
+                color: white;
+            }
+            .selectedPage{
+                background: red;
+                border-radius:50%;
+               
+            }
+            .selectedPage .page{
+                 color: white;
+            }
+            
+            .navigate label:nth-child(odd):hover{
+                cursor: pointer;
+                color: black;
+            }
+            
+        </style>
+        
+        <script src="angular.js"></script>
+        <script src="pagination.js"></script>
+    </head>
+    <body ng-app="pageApp">
+        <div ng-controller="paginationCtrl">
+        
+            <table>
+                <tr>
+                    <td><label>Name</label></td>
+                    <td><input type="text" ng-model="person.name"></td>
+                </tr>
+                <tr>
+                    <td><label>Email</label></td>
+                    <td><input type="text" ng-model="person.email"></td>
+                </tr>
+                <tr>
+                    <td><label>Age</label></td>
+                    <td><input type="number" ng-model="person.age"></td>
+                </tr>
+                <tr>
+                    <td><label>Salary</label></td>
+                    <td><input type="text" ng-model="person.salary"></td>
+                </tr>
+                <tr>
+                    <td><label></label></td>
+                    <td><input type="button" ng-click="submit()" value="Submit"></td>
+                </tr>
+            
+            </table>
+            
+            <table cellpadding="20" cellspacing="0" border="1" colspan="30">
+                
+                <tr ng-if="personDataPaginated.length>0">
+                    <td><label>Name</label></td>
+                    <td><label>Email</label></td>
+                    <td><label>Age</label></td>
+                    <td><label>Salary</label></td>
+                </tr>
+                <tr ng-repeat="person1 in personDataPaginated">
+                    <td><label  ng-if="!editEnabled">{{person1.name}}</label><input ng-if="editEnabled" type="text" ng-model="person1.name"></td>
+                    <td><label ng-if="!editEnabled">{{person1.email}}</label><input type="text"  ng-if="editEnabled" ng-model="person1.email"></td>
+                    <td><label ng-if="!editEnabled">{{person1.age}}</label><input type="number" ng-model="person1.age"  ng-if="editEnabled"></td>
+                    <td><label ng-if="!editEnabled">{{person1.salary}}</label><input type="text" ng-model="person1.salary"  ng-if="editEnabled"></td>
+                    <td><input type="button" ng-click="delete($index)" value="Delete"><input type="button" ng-click="edit()" value="Edit"><label ng-if="editEnabled" ng-click="discardChanges($index)" style="cursor:pointer;color:red">X</label><label ng-if="editEnabled" ng-click="makeChanges($index)" style="cursor:pointer;color:green">&#10004</label></td>
+                </tr>
+               
+            
+            </table>
+            
+            <div class="navigate" ng-show="personData.length>0" style="font-size: 20px;font-weight: bold;color: #a16c6c;">
+                <label>&lt;&lt;</label>
+                <div class="pageContainer">
+                    <div class="pages" ng-repeat="page in pages" ng-class="selectedPage==page?'selectedPage':''" ng-click="navigate(page)"><label class="page" >{{page}}</label></div>
+                </div>
+                 <label>&gt;&gt;</label>
+            </div>
+        
+        </div>
+    
+    </body>
+
+
+</html>
